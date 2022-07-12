@@ -101,9 +101,8 @@ export default function Login({
       <AuthContainer
         title={t("login")}
         description={t("login")}
-        showLogo
         heading={twoFactorRequired ? t("2fa_code") : t("sign_in_account")}
-        footerText={twoFactorRequired ? TwoFactorFooter : LoginFooter}>
+        footerText={twoFactorRequired ? TwoFactorFooter : ""}>
         <Form
           form={form}
           className="space-y-6"
