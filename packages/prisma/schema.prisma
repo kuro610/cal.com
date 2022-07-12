@@ -9,6 +9,7 @@ datasource db {
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["filterJson", "interactiveTransactions"]
+  binaryTargets   = ["native", "debian-openssl-1.1.x"]
 }
 
 generator zod {
@@ -134,7 +135,7 @@ model User {
   bio                  String?
   avatar               String?
   timeZone             String               @default("Europe/London")
-  weekStart            String               @default("Sunday")
+  weekStart            String               @default("Monday")
   // DEPRECATED - TO BE REMOVED
   startTime            Int                  @default(0)
   endTime              Int                  @default(1440)
@@ -153,14 +154,14 @@ model User {
   selectedCalendars    SelectedCalendar[]
   completedOnboarding  Boolean              @default(false)
   locale               String?
-  timeFormat           Int?                 @default(12)
+  timeFormat           Int?                 @default(24)
   twoFactorSecret      String?
   twoFactorEnabled     Boolean              @default(false)
   identityProvider     IdentityProvider     @default(CAL)
   identityProviderId   String?
   availability         Availability[]
   invitedTo            Int?
-  plan                 UserPlan             @default(TRIAL)
+  plan                 UserPlan             @default(PRO)
   webhooks             Webhook[]
   brandColor           String               @default("#292929")
   darkBrandColor       String               @default("#fafafa")
@@ -170,7 +171,7 @@ model User {
   // participate in dynamic group booking or not
   allowDynamicBooking  Boolean?             @default(true)
   /// @zod.custom(imports.userMetadata)
-  metadata             Json?
+  metadata             Json?                @default("{}")
   verified             Boolean?             @default(false)
   role                 UserPermissionRole   @default(USER)
   disableImpersonation Boolean              @default(false)
