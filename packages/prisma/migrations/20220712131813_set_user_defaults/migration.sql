@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "users" ALTER COLUMN "weekStart" SET DEFAULT E'Monday',
+ALTER COLUMN "plan" SET DEFAULT E'PRO',
+ALTER COLUMN "metadata" SET DEFAULT '{}',
+ALTER COLUMN "timeFormat" SET DEFAULT 24;
