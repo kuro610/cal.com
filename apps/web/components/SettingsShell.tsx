@@ -34,11 +34,11 @@ const tabs = [
     href: "/settings/developer",
     icon: CodeIcon,
   },
-  {
-    name: "billing",
-    href: "/settings/billing",
-    icon: CreditCardIcon,
-  },
+  // {
+  //   name: "billing",
+  //   href: "/settings/billing",
+  //   icon: CreditCardIcon,
+  // },
   {
     name: "admin",
     href: "/settings/admin",
