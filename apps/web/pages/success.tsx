@@ -415,17 +415,17 @@ export default function Success(props: SuccessProps) {
                         </span>
                         <div
                           className={classNames(
-                            "items-center self-center ltr:mr-2 rtl:ml-2 dark:text-gray-50  sm:justify-center",
+                            "col-span-2 items-center self-center ltr:mr-2 rtl:ml-2 dark:text-gray-50  sm:justify-center",
                             !props.recurringBookings ? "flex sm:ml-7" : ""
                           )}>
                           <button className="underline" onClick={() => setIsCancellationMode(true)}>
-                            {t("cancel")}
+                            {t("cancel_booking")}
                           </button>
                           {!props.recurringBookings && (
                             <>
                               <div className="mx-2">{t("or_lowercase")}</div>
                               <div className="underline">
-                                <Link href={"/reschedule/" + bookingInfo?.uid}>{t("Reschedule")}</Link>
+                                <Link href={"/reschedule/" + bookingInfo?.uid}>{t("reschedule")}</Link>
                               </div>
                             </>
                           )}
@@ -442,11 +442,11 @@ export default function Success(props: SuccessProps) {
                       />
                     ))}
                   {userIsOwner && !needsConfirmation && !isCancellationMode && !isCancelled && (
-                    <div className="border-bookinglightest mt-9 flex border-b pt-2 pb-4 text-center dark:border-gray-900 sm:mt-0 sm:pt-4">
-                      <span className="flex self-center font-medium text-gray-700 ltr:mr-2 rtl:ml-2 dark:text-gray-50">
+                    <div className="border-bookinglightest mt-9 grid grid-cols-3 border-b pt-2 pb-4 dark:border-gray-900 sm:mt-0 sm:pt-4">
+                      <span className="font-medium text-gray-700 ltr:mr-2 rtl:ml-2 dark:text-gray-50">
                         {t("add_to_calendar")}
                       </span>
-                      <div className="-ml-16 flex flex-grow justify-center text-center">
+                      <div className="col-span-2 flex flex-wrap justify-end text-center">
                         <Link
                           href={
                             `https://calendar.google.com/calendar/r/eventedit?dates=${date

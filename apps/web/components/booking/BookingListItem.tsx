@@ -126,7 +126,7 @@ function BookingListItem(booking: BookingItemProps) {
       label:
         booking.listingStatus === "recurring" && booking.recurringEventId !== null
           ? t("cancel_all_remaining")
-          : t("cancel"),
+          : t("cancel_booking"),
       href: `/cancel/${booking.uid}`,
       icon: XIcon,
     },
