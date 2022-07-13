@@ -37,8 +37,10 @@ export default function Type(props: inferSSRProps<typeof getServerSideProps>) {
   return (
     <div>
       <HeadSeo
-        title={`${t("cancel")} ${props.booking && props.booking.title} | ${props.profile?.name}`}
-        description={`${t("cancel")} ${props.booking && props.booking.title} | ${props.profile?.name}`}
+        title={`${t("cancel_booking")}: ${props.booking && props.booking.title} | ${props.profile?.name}`}
+        description={`${t("cancel_booking")}: ${props.booking && props.booking.title} | ${
+          props.profile?.name
+        }`}
       />
       <CustomBranding lightVal={props.profile?.brandColor} darkVal={props.profile?.darkBrandColor} />
       <main className="mx-auto my-24 max-w-3xl">
@@ -161,7 +163,7 @@ export default function Type(props: inferSSRProps<typeof getServerSideProps>) {
                           onChange={(e) => setCancellationReason(e.target.value)}
                           className="mb-5 sm:mb-6"
                         />
-                        <div className="space-x-2 text-center rtl:space-x-reverse">
+                        <div className="flex justify-center space-x-2 text-center rtl:space-x-reverse">
                           {!props.booking.eventType?.recurringEvent && (
                             <Button color="secondary" onClick={() => router.push("/reschedule/" + uid)}>
                               {t("reschedule_this")}

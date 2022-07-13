@@ -60,57 +60,53 @@ export default function CancelBooking(props: Props) {
               className="mt-2 mb-3 w-full dark:border-gray-900 dark:bg-gray-700 dark:text-white sm:mb-3 "
               rows={3}
             />
-            <div className="flex rtl:space-x-reverse">
+            <div className="flex space-x-2 rtl:space-x-reverse">
+              <Button color="secondary" onClick={() => props.setIsCancellationMode(false)}>
+                {t("cancel")}
+              </Button>
               {!props.recurringEvent && (
-                <div className="w-full">
-                  <Button color="secondary" onClick={() => router.push("/reschedule/" + booking?.uid)}>
-                    {t("reschedule_this")}
-                  </Button>
-                </div>
+                <Button color="secondary" onClick={() => router.push("/reschedule/" + booking?.uid)}>
+                  {t("reschedule_this")}
+                </Button>
               )}
-              <div className="w-full space-x-2 text-right">
-                <Button color="secondary" onClick={() => props.setIsCancellationMode(false)}>
-                  {t("nevermind")}
-                </Button>
-                <Button
-                  data-testid="cancel"
-                  onClick={async () => {
-                    setLoading(true);
+              <Button
+                data-testid="cancel"
+                onClick={async () => {
+                  setLoading(true);
 
-                    const payload = {
-                      uid: booking?.uid,
-                      reason: cancellationReason,
-                    };
+                  const payload = {
+                    uid: booking?.uid,
+                    reason: cancellationReason,
+                  };
 
-                    telemetry.event(telemetryEventTypes.bookingCancelled, collectPageParameters());
+                  telemetry.event(telemetryEventTypes.bookingCancelled, collectPageParameters());
 
-                    const res = await fetch("/api/cancel", {
-                      body: JSON.stringify(payload),
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      method: "DELETE",
-                    });
+                  const res = await fetch("/api/cancel", {
+                    body: JSON.stringify(payload),
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    method: "DELETE",
+                  });
 
-                    if (res.status >= 200 && res.status < 300) {
-                      await router.push(
-                        `/cancel/success?name=${props.profile.name}&title=${booking?.title}&eventPage=${
-                          profile.slug
-                        }&team=${team ? 1 : 0}&recurring=${!!props.recurringEvent}`
-                      );
-                    } else {
-                      setLoading(false);
-                      setError(
-                        `${t("error_with_status_code_occured", { status: res.status })} ${t(
-                          "please_try_again"
-                        )}`
-                      );
-                    }
-                  }}
-                  loading={loading}>
-                  {t("cancel_event")}
-                </Button>
-              </div>
+                  if (res.status >= 200 && res.status < 300) {
+                    await router.push(
+                      `/cancel/success?name=${props.profile.name}&title=${booking?.title}&eventPage=${
+                        profile.slug
+                      }&team=${team ? 1 : 0}&recurring=${!!props.recurringEvent}`
+                    );
+                  } else {
+                    setLoading(false);
+                    setError(
+                      `${t("error_with_status_code_occured", { status: res.status })} ${t(
+                        "please_try_again"
+                      )}`
+                    );
+                  }
+                }}
+                loading={loading}>
+                {t("cancel_event")}
+              </Button>
             </div>
           </div>
         )}
