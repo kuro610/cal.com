@@ -10,7 +10,7 @@ import Row from "./Row";
 
 const Html = (props: { children: React.ReactNode }) => (
   <>
-    <RawHtml html={`<!doctype html>`} />
+    <RawHtml html="<!doctype html>" />
     <html>{props.children}</html>
   </>
 );
@@ -103,7 +103,7 @@ export const BaseEmailHtml = (props: {
                     </td>
                   </Row>
                 </div>
-                <RawHtml html={`<!--[if mso | IE]></td></tr></table><![endif]-->`} />
+                <RawHtml html="<!--[if mso | IE]></td></tr></table><![endif]-->" />
               </td>
             </Row>
           </div>
@@ -168,19 +168,20 @@ export const BaseEmailHtml = (props: {
                                 lineHeight: 1,
                                 textAlign: "left",
                                 color: "#000000",
-                              }}></div>
+                              }}
+                            />
                           </td>
                         </tr>
                       </tbody>
                     </BaseTable>
                   </div>
                 )}
-                <RawHtml html={`<!--[if mso | IE]></td></tr></table><![endif]-->`} />
+                <RawHtml html="<!--[if mso | IE]></td></tr></table><![endif]-->" />
               </td>
             </Row>
           </div>
           <EmailBodyLogo />
-          <RawHtml html={`<!--[if mso | IE]></td></tr></table><![endif]-->`} />
+          <RawHtml html="<!--[if mso | IE]></td></tr></table><![endif]-->" />
         </div>
       </body>
     </Html>

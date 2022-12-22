@@ -2,9 +2,8 @@ import { I18n } from "next-i18next";
 import { RRule } from "rrule";
 
 import dayjs, { Dayjs } from "@calcom/dayjs";
-import { RecurringEvent } from "@calcom/types/Calendar";
-
-import { detectBrowserTimeFormat } from "@lib/timeFormat";
+import { detectBrowserTimeFormat } from "@calcom/lib/timeFormat";
+import type { RecurringEvent } from "@calcom/types/Calendar";
 
 import { parseZone } from "./parseZone";
 
@@ -39,10 +38,19 @@ export const parseRecurringDates = (
   const rule = new RRule({
     ...restRecurringEvent,
     count: recurringCount,
-    dtstart: dayjs(startDate).toDate(),
+    dtstart: new Date(dayjs(startDate).valueOf()),
   });
-  const dateStrings = rule.all().map((r) => {
-    return processDate(dayjs(r).tz(timeZone), i18n);
+
+  const startUtcOffset = dayjs(startDate).utcOffset();
+  // UTC still need to have DST applied, rrule does not do this.
+  const times = rule.all().map((t) => {
+    // applying the DST offset.
+    return dayjs.utc(t).add(startUtcOffset - dayjs(t).utcOffset(), "minute");
   });
-  return [dateStrings, rule.all()];
+  const dateStrings = times.map((t) => {
+    // finally; show in local timeZone again
+    return processDate(t.tz(timeZone), i18n);
+  });
+
+  return [dateStrings, times.map((t) => t.toDate())];
 };

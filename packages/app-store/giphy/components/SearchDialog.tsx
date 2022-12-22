@@ -1,12 +1,9 @@
-import { SearchIcon, LinkIcon } from "@heroicons/react/outline";
-import { useState } from "react";
-import { Dispatch, SetStateAction } from "react";
+import { LinkIcon, SearchIcon } from "@heroicons/react/outline";
+import { Dispatch, SetStateAction, useState } from "react";
 
 import classNames from "@calcom/lib/classNames";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
-import { Alert } from "@calcom/ui/Alert";
-import Button from "@calcom/ui/Button";
-import { Dialog, DialogClose, DialogContent, DialogFooter } from "@calcom/ui/Dialog";
+import { Alert, Button, Dialog, DialogClose, DialogContent, DialogFooter } from "@calcom/ui";
 
 interface ISearchDialog {
   isOpenDialog: boolean;
@@ -159,11 +156,13 @@ export const SearchDialog = (props: ISearchDialog) => {
                       cy="12"
                       r="10"
                       stroke="currentColor"
-                      strokeWidth="4"></circle>
+                      strokeWidth="4"
+                    />
                     <path
                       className="opacity-75"
                       fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
                   </svg>
                 </div>
               ) : (
@@ -188,13 +187,12 @@ export const SearchDialog = (props: ISearchDialog) => {
         )}
         <DialogFooter>
           <DialogClose
+            color="minimal"
+            tabIndex={-1}
             onClick={() => {
               props.setIsOpenDialog(false);
-            }}
-            asChild>
-            <Button type="button" color="minimal" tabIndex={-1}>
-              {t("cancel")}
-            </Button>
+            }}>
+            {t("cancel")}
           </DialogClose>
 
           <Button

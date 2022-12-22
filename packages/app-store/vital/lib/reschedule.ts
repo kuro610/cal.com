@@ -1,23 +1,23 @@
 import { Booking, BookingReference, BookingStatus, User } from "@prisma/client";
-import dayjs from "@calcom/dayjs";
 import type { TFunction } from "next-i18next";
 
 import EventManager from "@calcom/core/EventManager";
 import { CalendarEventBuilder } from "@calcom/core/builders/CalendarEvent/builder";
 import { CalendarEventDirector } from "@calcom/core/builders/CalendarEvent/director";
 import { deleteMeeting } from "@calcom/core/videoClient";
+import dayjs from "@calcom/dayjs";
 import { sendRequestRescheduleEmail } from "@calcom/emails";
 import logger from "@calcom/lib/logger";
 import { getTranslation } from "@calcom/lib/server/i18n";
 import prisma from "@calcom/prisma";
-import { Person } from "@calcom/types/Calendar";
+import type { Person } from "@calcom/types/Calendar";
 
 import { getCalendar } from "../../_utils/getCalendar";
 
 type PersonAttendeeCommonFields = Pick<User, "id" | "email" | "name" | "locale" | "timeZone" | "username">;
 
 const Reschedule = async (bookingUid: string, cancellationReason: string) => {
-  const bookingToReschedule = await prisma.booking.findFirst({
+  const bookingToReschedule = await prisma.booking.findFirstOrThrow({
     select: {
       id: true,
       uid: true,
@@ -42,7 +42,6 @@ const Reschedule = async (bookingUid: string, cancellationReason: string) => {
         },
       },
     },
-    rejectOnNotFound: true,
     where: {
       uid: bookingUid,
       NOT: {
@@ -55,13 +54,12 @@ const Reschedule = async (bookingUid: string, cancellationReason: string) => {
 
   if (bookingToReschedule && bookingToReschedule.eventTypeId && bookingToReschedule.user) {
     const userOwner = bookingToReschedule.user;
-    const event = await prisma.eventType.findFirst({
+    const event = await prisma.eventType.findFirstOrThrow({
       select: {
         title: true,
         users: true,
         schedulingType: true,
       },
-      rejectOnNotFound: true,
       where: {
         id: bookingToReschedule.eventTypeId,
       },

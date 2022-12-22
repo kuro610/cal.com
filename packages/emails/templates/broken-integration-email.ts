@@ -1,6 +1,7 @@
 import { TFunction } from "next-i18next";
 
 import { getRichDescription } from "@calcom/lib/CalEventParser";
+import { APP_NAME } from "@calcom/lib/constants";
 import type { CalendarEvent } from "@calcom/types/Calendar";
 
 import { renderEmail } from "..";

@@ -1,8 +1,8 @@
 import { BookingStatus, Prisma } from "@prisma/client";
-import dayjs from "@calcom/dayjs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import queue from "queue";
 
+import dayjs from "@calcom/dayjs";
 import { IS_PRODUCTION } from "@calcom/lib/constants";
 import { getErrorFromUnknown } from "@calcom/lib/errors";
 import { HttpError as HttpCode } from "@calcom/lib/http-error";
@@ -57,8 +57,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         if (event.data.user_id) {
           const json = { userVitalId: event.data.user_id as string };
-          const credential = await prisma.credential.findFirst({
-            rejectOnNotFound: true,
+          const credential = await prisma.credential.findFirstOrThrow({
             where: {
               type: "vital_other",
               key: {

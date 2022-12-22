@@ -1,19 +1,16 @@
-import { ClockIcon, XIcon } from "@heroicons/react/outline";
-import dayjs from "@calcom/dayjs";
-import { Dispatch, SetStateAction } from "react";
-import { useState } from "react";
-import { useMutation } from "react-query";
+import { ClockIcon } from "@heroicons/react/outline";
+import { useMutation } from "@tanstack/react-query";
+import { Dispatch, SetStateAction, useState } from "react";
 
+import dayjs from "@calcom/dayjs";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import logger from "@calcom/lib/logger";
-import showToast from "@calcom/lib/notification";
-import Button from "@calcom/ui/Button";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader } from "@calcom/ui/Dialog";
+import { trpc } from "@calcom/trpc/react";
+import { Button, Dialog, DialogContent, DialogFooter, DialogHeader, showToast } from "@calcom/ui";
 
 interface IConfirmDialogWipe {
   isOpenDialog: boolean;
   setIsOpenDialog: Dispatch<SetStateAction<boolean>>;
-  trpc: any;
 }
 
 interface IWipeMyCalAction {
@@ -45,7 +42,7 @@ const wipeMyCalAction = async (props: IWipeMyCalAction) => {
 
 export const ConfirmDialog = (props: IConfirmDialogWipe) => {
   const { t } = useLocale();
-  const { isOpenDialog, setIsOpenDialog, trpc } = props;
+  const { isOpenDialog, setIsOpenDialog } = props;
   const [isLoading, setIsLoading] = useState(false);
   const today = dayjs();
   const initialDate = today.startOf("day");
@@ -74,7 +71,7 @@ export const ConfirmDialog = (props: IConfirmDialogWipe) => {
     },
     {
       async onSettled() {
-        await utils.invalidateQueries(["viewer.bookings"]);
+        await utils.viewer.bookings.invalidate();
       },
     }
   );
@@ -84,17 +81,17 @@ export const ConfirmDialog = (props: IConfirmDialogWipe) => {
       <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <div className="flex flex-row space-x-3">
           <div className="flex h-10 w-10 flex-shrink-0 justify-center rounded-full bg-[#FAFAFA]">
-            <ClockIcon className="m-auto h-6 w-6"></ClockIcon>
+            <ClockIcon className="m-auto h-6 w-6" />
           </div>
           <div className="pt-1">
-            <DialogHeader title={"Wipe My Calendar"} />
+            <DialogHeader title="Wipe My Calendar" />
             <p className="mt-2 text-sm text-gray-500">
               This will cancel all upcoming meetings from: <br />{" "}
               <strong className="text-black">
                 {initialDate.format(dateFormat)} - {endDate.format(dateFormat)}
               </strong>
             </p>
-            <p className="mt-6 mb-2 text-sm font-bold text-black">Are you sure? This can&apos;t be undone</p>
+            <p className="mt-6 mb-2 text-sm">Are you sure? This can&apos;t be undone</p>
           </div>
         </div>
 
@@ -104,6 +101,7 @@ export const ConfirmDialog = (props: IConfirmDialogWipe) => {
           </Button>
 
           <Button
+            color="primary"
             data-testid="send_request"
             disabled={isLoading}
             onClick={async () => {

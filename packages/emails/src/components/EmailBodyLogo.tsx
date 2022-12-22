@@ -1,4 +1,4 @@
-import { WEBAPP_URL, IS_PRODUCTION } from "@calcom/lib/constants";
+import { IS_PRODUCTION, WEBAPP_URL } from "@calcom/lib/constants";
 
 import RawHtml from "./RawHtml";
 import Row from "./Row";
@@ -70,7 +70,7 @@ const EmailBodyLogo = () => {
                 </td>
               </Row>
             </div>
-            <CommentIE html={`</td></tr></table>`} />
+            <CommentIE html="</td></tr></table>" />
           </td>
         </Row>
       </div>

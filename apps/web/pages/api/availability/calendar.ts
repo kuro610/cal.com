@@ -2,9 +2,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { getCalendarCredentials, getConnectedCalendars } from "@calcom/core/CalendarManager";
 import notEmpty from "@calcom/lib/notEmpty";
+import prisma from "@calcom/prisma";
 
 import { getSession } from "@lib/auth";
-import prisma from "@lib/prisma";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getSession({ req });
@@ -76,7 +76,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     // get user's credentials + their connected integrations
-    const calendarCredentials = getCalendarCredentials(user.credentials, user.id);
+    const calendarCredentials = getCalendarCredentials(user.credentials);
     // get all the connected integrations' calendars (from third party)
     const connectedCalendars = await getConnectedCalendars(calendarCredentials, user.selectedCalendars);
     const calendars = connectedCalendars.flatMap((c) => c.calendars).filter(notEmpty);

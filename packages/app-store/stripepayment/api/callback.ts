@@ -3,7 +3,19 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { stringify } from "querystring";
 
 import prisma from "@calcom/prisma";
-import stripe, { StripeData } from "@calcom/stripe/server";
+
+import getInstalledAppPath from "../../_utils/getInstalledAppPath";
+import stripe, { StripeData } from "../lib/server";
+
+function getReturnToValueFromQueryState(req: NextApiRequest) {
+  let returnTo = "";
+  try {
+    returnTo = JSON.parse(`${req.query.state}`).returnTo;
+  } catch (error) {
+    console.info("No 'returnTo' in req.query.state");
+  }
+  return returnTo;
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { code, error, error_description } = req.query;
@@ -20,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const response = await stripe.oauth.token({
     grant_type: "authorization_code",
-    code: code.toString(),
+    code: code!.toString(),
   });
 
   const data: StripeData = { ...response, default_currency: "" };
@@ -38,5 +50,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     },
   });
 
-  res.redirect("/apps/installed");
+  const returnTo = getReturnToValueFromQueryState(req);
+  res.redirect(returnTo || getInstalledAppPath({ variant: "payment", slug: "stripe" }));
 }

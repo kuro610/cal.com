@@ -5,9 +5,9 @@ import { FieldValues, FormProvider, SubmitHandler, useFormContext, UseFormReturn
 import classNames from "@calcom/lib/classNames";
 import { getErrorFromUnknown } from "@calcom/lib/errors";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
-import showToast from "@calcom/lib/notification";
 
 import { Alert } from "../Alert";
+import { showToast } from "../v2/core/notifications";
 
 type InputProps = Omit<JSX.IntrinsicElements["input"], "name"> & { name: string };
 
@@ -85,8 +85,12 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(function InputF
         <Input id={id} placeholder={placeholder} className={className} {...passThrough} ref={ref} />
       )}
       {hint}
-      {methods?.formState?.errors[props.name] && (
-        <Alert className="mt-1" severity="error" message={methods.formState.errors[props.name].message} />
+      {methods?.formState?.errors[props.name]?.message && (
+        <Alert
+          className="mt-1"
+          severity="error"
+          message={<>{methods.formState.errors[props.name]!.message}</>}
+        />
       )}
     </div>
   );
@@ -100,7 +104,9 @@ export const PasswordField = forwardRef<HTMLInputElement, InputFieldProps>(funct
   props,
   ref
 ) {
-  return <InputField type="password" placeholder="•••••••••••••" ref={ref} {...props} />;
+  return (
+    <InputField data-testid="password" type="password" placeholder="•••••••••••••" ref={ref} {...props} />
+  );
 });
 
 export const EmailInput = forwardRef<HTMLInputElement, InputFieldProps>(function EmailInput(props, ref) {
@@ -139,7 +145,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
       ref={ref}
       {...props}
       className={classNames(
-        "block w-full rounded-sm border-gray-300 font-mono shadow-sm focus:border-neutral-900 focus:ring-neutral-900 sm:text-sm",
+        "block w-full rounded-sm border-gray-300 shadow-sm focus:border-neutral-900 focus:ring-neutral-900 sm:text-sm",
         props.className
       )}
     />
@@ -175,8 +181,12 @@ export const TextAreaField = forwardRef<HTMLTextAreaElement, TextAreaFieldProps>
         </Label>
       )}
       <TextArea ref={ref} placeholder={placeholder} {...passThrough} />
-      {methods?.formState?.errors[props.name] && (
-        <Alert className="mt-1" severity="error" message={methods.formState.errors[props.name].message} />
+      {methods?.formState?.errors[props.name]?.message && (
+        <Alert
+          className="mt-1"
+          severity="error"
+          message={<>{methods.formState.errors[props.name]!.message}</>}
+        />
       )}
     </div>
   );
@@ -196,6 +206,8 @@ const PlainForm = <T extends FieldValues>(props: FormProps<T>, ref: Ref<HTMLForm
         ref={ref}
         onSubmit={(event) => {
           event.preventDefault();
+          event.stopPropagation();
+
           form
             .handleSubmit(handleSubmit)(event)
             .catch((err) => {

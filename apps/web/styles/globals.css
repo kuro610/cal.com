@@ -2,12 +2,109 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "../../../packages/ui/styles/shared-globals.css";
+
+body  {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
 :root {
   --brand-color: #292929;
   --brand-text-color: #ffffff;
   --brand-color-dark-mode: #fafafa;
   --brand-text-color-dark-mode: #292929;
 }
+
+/*
+  Desktop App specific CSS
+    https://docs.todesktop.com/
+*/
+
+/* disable user selection on buttons, links and images on desktop app */
+html.todesktop button,
+html.todesktop a,
+html.todesktop img,
+html.todesktop header{
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default !important;
+}
+
+html.todesktop,
+html.todesktop div  {
+  cursor: default !important;
+}
+
+/* make header draggable on desktop app */
+html.todesktop header{
+  -webkit-app-region: drag;
+}
+html.todesktop header button{
+  -webkit-app-region: no-drag;
+}
+
+html.todesktop .logo {
+  display: none;
+}
+
+.desktop-only {
+  display: none;
+}
+
+html.todesktop .desktop-only {
+  display: block;
+}
+
+html.todesktop .desktop-hidden {
+  display: none;
+}
+
+html.todesktop header {
+  margin-top: -14px;
+}
+
+html.todesktop header nav {
+  margin-top: 8px;
+}
+
+html.todesktop aside {
+  margin:0px -6px;
+}
+
+/* TODO: add "native" MacOS colors
+   requires darkmode for MacOS first
+
+html.todesktop .desktop-transparent{
+  background: transparent !important;
+  border: none !important;
+}
+
+html.todesktop aside a {
+  height: 28px;
+  padding: 0px 8px;
+  font-size: 12px;
+  color: #383438 !important
+}
+
+html.todesktop nav a:hover{
+  background-color: inherit !important
+}
+
+html.todesktop nav a[aria-current="page"]{
+  background: rgba(0, 0, 0, 0.1) !important;
+}
+
+html.todesktop nav a svg{
+  color: #0272F7 !important
+}
+*/
+
+
 
 /*
   Adds Utility to hide scrollbar to tailwind
@@ -22,8 +119,8 @@
     }
 
     .no-scrollbar {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
     }
   }
 }
@@ -52,19 +149,25 @@ select:focus {
   --tw-ring-color: var(--brand-color);
   border-color: var(--brand-color);
 }
+/*  https://stackoverflow.com/a/69308190 */
+input[type='text']:focus { box-shadow: none; }
+
 
 button[role="switch"][data-state="checked"] {
   @apply bg-gray-900;
 }
-
-button[role="switch"][data-state="checked"] span {
+/* TODO: avoid global specific css */
+/* button[role="switch"][data-state="checked"] span {
   transform: translateX(16px);
-}
+} */
 
 /* DateRangePicker */
+/*
+  TODO:: Remove on V2 launch
+ */
 .react-daterange-picker > .react-daterange-picker__wrapper {
   /* border consistent with other inputs */
-  @apply rounded-sm border-gray-300 px-2 py-1.5 sm:text-sm lg:py-1;
+  @apply rounded-sm border-gray-300 px-2 py-1.5 text-sm lg:py-1;
 }
 
 .react-daterange-picker > .react-daterange-picker__wrapper input {
@@ -72,86 +175,8 @@ button[role="switch"][data-state="checked"] span {
   @apply my-0.5 h-auto rounded-sm py-0.5;
 }
 
-/* note(PeerRich): TODO move @layer components into proper React Components: <Button color="primary" size="xs" /> */
+
 @layer components {
-  /* Primary buttons */
-  .btn-xs.btn-primary {
-    @apply inline-flex items-center rounded border border-transparent bg-neutral-900 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  .btn-sm.btn-primary {
-    @apply inline-flex items-center rounded-sm border border-transparent bg-neutral-900 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  .btn.btn-primary {
-    @apply inline-flex items-center rounded-sm border border-transparent bg-neutral-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  .btn-lg.btn-primary {
-    @apply inline-flex items-center rounded-sm border border-transparent bg-neutral-900 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  .btn-xl.btn-primary {
-    @apply inline-flex items-center rounded-sm border border-transparent bg-neutral-900 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  .btn-wide.btn-primary {
-    @apply w-full rounded-sm border border-transparent bg-neutral-900 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  /* Secondary buttons */
-  .btn-xs.btn-secondary {
-    @apply inline-flex items-center rounded border border-transparent bg-neutral-100 px-2.5 py-1.5 text-xs font-medium text-neutral-700 hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  .btn-sm.btn-secondary {
-    @apply inline-flex items-center rounded-sm border border-transparent bg-neutral-100 px-3 py-2 text-sm font-medium leading-4 text-neutral-700 hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  .btn.btn-secondary {
-    @apply inline-flex items-center rounded-sm border border-transparent bg-neutral-100 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  .btn-lg.btn-secondary {
-    @apply inline-flex items-center rounded-sm border border-transparent bg-neutral-100 px-4 py-2 text-base font-medium text-neutral-700 hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  .btn-xl.btn-secondary {
-    @apply inline-flex items-center rounded-sm border border-transparent bg-neutral-100 px-6 py-3 text-base font-medium text-neutral-700 hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  .btn-wide.btn-secondary {
-    @apply w-full rounded-sm border border-transparent bg-neutral-100 px-4 py-2 text-center text-sm font-medium text-neutral-700 hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  /* White buttons */
-  .btn-xs.btn-white {
-    @apply inline-flex items-center rounded border border-gray-300 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  .btn-sm.btn-white {
-    @apply inline-flex items-center rounded-sm border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  .btn.btn-white {
-    @apply inline-flex items-center rounded-sm border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  .btn-lg.btn-white {
-    @apply inline-flex items-center rounded-sm border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  .btn-xl.btn-white {
-    @apply inline-flex items-center rounded-sm border border-gray-300 bg-white px-6 py-3 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-
-  .btn-wide.btn-white {
-    @apply w-full rounded-sm border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2;
-  }
-  /* btn icon */
-  .btn-icon {
-    @apply cursor-pointer rounded-sm border border-transparent p-2 text-neutral-500 hover:border-gray-300 hover:text-neutral-900;
-  }
   /* slider */
   .slider {
     @apply relative flex h-4 w-40 select-none items-center;
@@ -166,7 +191,7 @@ button[role="switch"][data-state="checked"] span {
   }
 
   .slider .slider-thumb {
-    @apply block h-3 w-3 cursor-pointer rounded-full bg-neutral-700 shadow-sm transition-all;
+    @apply block h-3 w-3 cursor-pointer rounded-full bg-neutral-700 transition-all;
   }
 
   .slider .slider-thumb:hover {
@@ -176,6 +201,7 @@ button[role="switch"][data-state="checked"] span {
   .slider .slider-thumb:focus {
     box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.2);
   }
+
 }
 
 /* !important to style multi-email input */
@@ -193,6 +219,10 @@ button[role="switch"][data-state="checked"] span {
 @media all and (display-mode: standalone) {
   .bottom-nav {
     padding-bottom: 24px;
+  }
+
+  .cta {
+    bottom: 100px;
   }
 }
 
@@ -225,7 +255,7 @@ button[role="switch"][data-state="checked"] span {
 }
 
 .react-multi-email > [type="text"] {
-  @apply focus:border-brand block w-full rounded-[2px] border-gray-300 shadow-sm focus:ring-black dark:border-gray-900 dark:bg-gray-700 dark:text-white sm:text-sm;
+  @apply dark:placeholder:text-darkgray-600 focus:border-brand dark:border-darkgray-300 dark:text-darkgray-900 block w-full rounded-md border-gray-300 text-sm focus:ring-black disabled:bg-gray-200 disabled:hover:cursor-not-allowed dark:bg-transparent dark:selection:bg-green-500 disabled:dark:text-gray-500 dark:text-white;
 }
 
 .react-multi-email [data-tag] {
@@ -258,7 +288,7 @@ button[role="switch"][data-state="checked"] span {
 }
 
 .react-multi-email [data-tag] {
-  @apply my-1 inline-flex items-center rounded-md border border-transparent bg-neutral-200 px-2 py-1 text-sm font-medium text-gray-900 shadow-sm hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 ltr:mr-2 rtl:ml-2 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-700;
+  @apply my-1 inline-flex items-center rounded-md border border-transparent bg-neutral-200 px-2 py-1 text-sm font-medium text-gray-900 hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 ltr:mr-2 rtl:ml-2 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-700;
 }
 
 .react-multi-email [data-tag] [data-tag-item] {
@@ -312,6 +342,10 @@ button[role="switch"][data-state="checked"] span {
   display: inline-block;
   width: 100%;
   animation: loader-inner 2s infinite ease-in;
+}
+
+.no-ring-inset {
+  --tw-ring-inset: unset;
 }
 
 @keyframes loader {
@@ -374,10 +408,6 @@ nav#nav--settings > a.active svg {
   @apply text-neutral-500;
 }
 
-body {
-  background-color: #f3f4f6;
-}
-
 hr {
   @apply border-gray-200;
 }
@@ -402,51 +432,80 @@ hr {
   border: none !important;
 }
 
+.react-date-picker__inputGroup__input {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 /* animations */
-.slideInBottom { 
-  animation-duration: .3s;
+.slideInBottom {
+  animation-duration: 0.3s;
   animation-fill-mode: both;
-  animation-name: slideInBottom 
+  animation-name: slideInBottom;
 }
 
 @keyframes slideInBottom {
-    from {
-        opacity: 0;
-        transform: translateY(30%);
-    }
-    to { opacity: 1 }
+  from {
+    opacity: 0;
+    transform: translateY(30%);
+    pointer-events: none;
+  }
+  to {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 /* animations */
-.slideInTop { 
-  animation-duration: .3s;
+.slideInTop {
+  animation-duration: 0.3s;
   animation-fill-mode: both;
-  animation-name: slideInTop 
+  animation-name: slideInTop;
 }
 
 @keyframes slideInTop {
-    from {
-        opacity: 0;
-      transform: translateY(-20%);
-
-    }
-    to { 
-      opacity: 1;
-      transform: translateY(0%);
-
-    }
+  from {
+    opacity: 0;
+    transform: translateY(-20%);
+    pointer-events: none;
+  }
+  to {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0%);
+  }
 }
 
-.fadeIn { 
-  animation-duration: .3s;
+.fadeIn {
+  animation-duration: 0.3s;
   animation-fill-mode: both;
   animation-name: fadeIn;
   animation-timing-function: ease-in-out;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to { opacity: 1 }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/**
+ * Makes sure h-screen works on mobile Safari. By default h-screen
+ * does not take into account the height of the address bar, causing
+ * weird behaviour when scrolling — sometimes the height will be correct
+ * and sometimes it won't, depending on whether the address bar is
+ * in 'collapsed' state or not.
+ * @see: https://benborgers.com/posts/tailwind-h-screen
+ */
+@supports (-webkit-touch-callout: none) {
+  .h-screen {
+    height: -webkit-fill-available;
+  }
+}
+
+::-webkit-search-cancel-button {
+  -webkit-appearance: none;
 }
