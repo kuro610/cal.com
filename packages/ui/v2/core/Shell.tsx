@@ -357,7 +357,7 @@ function UserDropdown({ small }: { small?: boolean }) {
                 </>
               )}
               <DropdownMenuSeparator className="h-px bg-gray-200" />
-              <DropdownMenuItem>
+              {/* <DropdownMenuItem>
                 <a
                   href={JOIN_SLACK}
                   target="_blank"
@@ -366,8 +366,8 @@ function UserDropdown({ small }: { small?: boolean }) {
                   <Icon.FiSlack strokeWidth={1.5} className="h-4 w-4 text-gray-500 ltr:mr-2 rtl:ml-3" />{" "}
                   {t("join_our_slack")}
                 </a>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
+              </DropdownMenuItem> */}
+              {/* <DropdownMenuItem>
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
@@ -375,7 +375,7 @@ function UserDropdown({ small }: { small?: boolean }) {
                   className="flex items-center px-4 py-2 text-sm text-gray-700">
                   <Icon.FiMap className="h-4 w-4 text-gray-500 ltr:mr-2 rtl:ml-3" /> {t("visit_roadmap")}
                 </a>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               <DropdownMenuItem>
                 <button
                   onClick={() => setHelpOpen(true)}
@@ -391,7 +391,7 @@ function UserDropdown({ small }: { small?: boolean }) {
                   {t("help")}
                 </button>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              {/* <DropdownMenuItem>
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
@@ -400,7 +400,7 @@ function UserDropdown({ small }: { small?: boolean }) {
                   <Icon.FiDownload className="h-4 w-4 text-gray-500 ltr:mr-2 rtl:ml-3" />{" "}
                   {t("download_desktop_app")}
                 </a>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
 
               <DropdownMenuSeparator className="h-px bg-gray-200" />
               <DropdownMenuItem>
@@ -523,11 +523,11 @@ const navigation: NavigationItemType[] = [
       return router.asPath.startsWith("/apps/routing-forms/");
     },
   },
-  {
-    name: "workflows",
-    href: "/workflows",
-    icon: Icon.FiZap,
-  },
+  // {
+  //   name: "workflows",
+  //   href: "/workflows",
+  //   icon: Icon.FiZap,
+  // },
   {
     name: "settings",
     href: "/settings/my-account/profile",

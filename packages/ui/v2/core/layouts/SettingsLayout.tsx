@@ -55,7 +55,7 @@ const tabs: VerticalTabItemProps[] = [
     children: [
       //
       { name: "webhooks", href: "/settings/developer/webhooks" },
-      { name: "api_keys", href: "/settings/developer/api-keys" },
+      // { name: "api_keys", href: "/settings/developer/api-keys" },
       // TODO: Add profile level for embeds
       // { name: "embeds", href: "/v2/settings/developer/embeds" },
     ],
@@ -79,12 +79,12 @@ const tabs: VerticalTabItemProps[] = [
   },
 ];
 
-tabs.find((tab) => {
-  // Add "SAML SSO" to the tab
-  if (tab.name === "security" && !HOSTED_CAL_FEATURES) {
-    tab.children?.push({ name: "saml_config", href: "/settings/security/sso" });
-  }
-});
+// tabs.find((tab) => {
+//   // Add "SAML SSO" to the tab
+//   if (tab.name === "security" && !HOSTED_CAL_FEATURES) {
+//     tab.children?.push({ name: "saml_config", href: "/settings/security/sso" });
+//   }
+// });
 
 // The following keys are assigned to admin only
 const adminRequiredKeys = ["admin"];
