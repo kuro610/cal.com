@@ -80,7 +80,7 @@ export const HeadSeo = (props: HeadSeoProps): JSX.Element => {
   const image = getSeoImage("ogImage") + constructGenericImage({ title, description });
   const truncatedDescription = truncateOnWord(description, 158);
 
-  const pageTitle = title + " | Abenteuer Kompass Termine";
+  const pageTitle = title + " | " + APP_NAME;
   let seoObject = buildSeoMeta({
     title: pageTitle,
     image,
